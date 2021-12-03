@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+ 
+    <title>Register - LoL Human APIs</title>
+ 
+    <link href="/static/fontawesome5/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+ 
+    <link href="/static/css/loginregister.css" rel="stylesheet" />
+    <link href="/static/css/logercustom.min.css" rel="stylesheet" />
+</head>
+ 
+<body class="dark-mode">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-6 d-none d-lg-block abu2">
+                        <br /><br /><br /><br />
+                        <center>
+                            <i id="logoload" class="fas fa-cat" style="
+                                        font-size: 234px;
+                                        color: white;
+                                        text-align: justify;
+                                    "></i>
+                        </center>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-white-900 mb-4" style="font-family: 'Nunito', cursive">
+                                    create an account!
+                                </h1>
+                            </div>
+                            <div id="result"></div>
+                            <form class="user" method="post" id="myform" action="/register">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="email" name="email" class="
+                                                    form-control
+                                                    form-control-user
+                                                " id="exampleFirstName" placeholder="Email" autocomplete="off" required />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="number" name="nomor" class="
+                                                    form-control
+                                                    form-control-user
+                                                " placeholder="628xxxxxxxxxx" autocomplete="off" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="username" class="
+                                                form-control form-control-user
+                                            " id="exampleFirstName" placeholder="Username" autocomplete="off" required />
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" name="password" class="
+                                                    form-control
+                                                    form-control-user
+                                                " id="exampleInputPassword" placeholder="Password" required />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" name="ConfirmPassword" class="
+                                                    form-control
+                                                    form-control-user
+                                                " id="exampleRepeatPassword" placeholder="Repeat Password" required />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="email-confirm" checked />
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Send message confirmation from
+                                            Email
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="wa-confirm" />
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Send message confirmation from
+                                            WhatsApp
+                                        </label>
+                                    </div>
+                                </div>
+                                        ">
+                                    Register Account
+                                </button>
+                            </form>
+                            <hr />
+                            <div class="text-center">
+                                <a class="small" href="/login">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/core/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#myform").submit(function(e) {
+                var formObj = $(this);
+                var formURL = formObj.attr("action");
+                var formData = new FormData(this);
+ 
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $("button").attr("disabled", "disabled");
+                        $("input").attr("disabled", "disabled");
+                        $("a").attr("disabled", "disabled");
+                        $("#loading").html(
+                            '<i class="fas fa-spinner fa-spin"></i> Loading...'
+                        );
+                    },
+                    success: function(data, textStatus, jqXHR) {
+                        if (
+                            data ==
+                            "Successfully registered. Please check your whatsapp to verified account!" ||
+                            data ==
+                            "Successfully registered. Please check your email to verified account!"
+                        ) {
+                            alert(data);
+                            window.location = "/login";
+                        } else {
+                            $("button").removeAttr("disabled", "disabled");
+                            $("a").removeAttr("disabled", "disabled");
+                            $("input").removeAttr("disabled", "disabled");
+                            $("#loading").html("Register Account");
+                            alert(data);
+                            $('.form-control-user[type="password"]').val(
+                                ""
+                            );
+                            grecaptcha.reset(0);
+                        }
+                    },
+                });
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+ 
+</html>
