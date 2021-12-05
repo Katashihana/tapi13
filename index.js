@@ -1,5 +1,3 @@
-__path = process.cwd();
-var favicon = require('serve-favicon');
 var express = require('express'),
     cors = require('cors'),
     secure = require('ssl-express-www');
